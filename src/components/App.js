@@ -17,7 +17,7 @@ import { PageTransition } from '@steveeeie/react-page-transition';
 // https://github.com/Steveeeie/react-page-transition
 
 function App() {
-  const { preset } = useContext(AppTransitionContext);
+  const { preset, enterAnimation , exitAnimation } = useContext(AppTransitionContext);
   return (
 
     <Router>
@@ -26,24 +26,25 @@ function App() {
         <DatabaseProvider>
         
         <Route
-        render={({ location }) => {
-          return (
-            <PageTransition
-              preset={preset}
-              transitionKey={location.pathname}
-            >
-            <Switch location={location}>
-              <PrivateRoute exact path="/"  component={Dashboard} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <PrivateRoute path="/task-board" component={Taskboard} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-            </Switch>
-          </PageTransition>
-          );
-        }}
-      />
+            render={({ location }) => {return (
+                <PageTransition
+                  preset={preset}
+                  transitionKey={location.pathname}
+                  enterAnimation={enterAnimation}
+                  exitAnimation={exitAnimation}
+                >
+                <Switch location={location}>
+                  <PrivateRoute exact path="/"  component={Dashboard} />
+                  <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                  <PrivateRoute path="/task-board" component={Taskboard} />
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/forgot-password" component={ForgotPassword} />
+                </Switch>
+              </PageTransition>
+              );
+            }}
+          />
       
           </DatabaseProvider>
           </ThemeProvider>

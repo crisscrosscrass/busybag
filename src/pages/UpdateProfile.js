@@ -19,7 +19,7 @@ export default function UpdateProfile() {
             await setPreset("moveToRightFromLeft")
             history.push('/')
             // TODO set Dashboard & Taskboard seperate
-            await setPreset("cubeToTop")
+            // await setPreset("cubeToTop")
         } catch (error) {
         }
 

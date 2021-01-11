@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const AppTransitionContext = createContext();
 
 export function AppTransitionProvider({ children }) {
-  const [preset, setPreset] = useState("cubeToTop");
+  const [preset, setPreset] = useState("cubeToLeft");
   const [enterAnimation, setEnterAnimation] = useState("");
   const [exitAnimation, setExitAnimation] = useState("");
 
