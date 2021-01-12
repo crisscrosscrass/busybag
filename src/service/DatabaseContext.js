@@ -18,7 +18,7 @@ export function DatabaseProvider( {children} ) {
         auth.onAuthStateChanged(function(user) {
             if (user) {
               // User is signed in.
-              firestore.collection("projects").where("user", "==", user.email).onSnapshot(snapshop => setProjects(
+              firestore.collection("projects").where("owner", "==", user.email).onSnapshot(snapshop => setProjects(
                 snapshop.docs.map(
                     doc=>({id:doc.id,data:doc.data()})
                     )
@@ -51,14 +51,33 @@ export function DatabaseProvider( {children} ) {
         setLoading(false)
     }
 
-    function addProject(project,user){
+    function addProject(project,description, color, user){
         firestore.collection("projects").add({
             name:project,
-            user: user,
-          })
+            description:description,
+            color:color,
+            owner: user,
+        }).then(docRef => {
+            return docRef.id            
+        })
+        .catch(error => console.error("Error adding document: ", error))
+    }
+
+    function addTaskToProject(projectId,task,repeat){
+        firestore.collection(projectId).add({
+            name:task,
+            user:repeat,
+        })
     }
 
     function deleteProject(projectid){
+        const ref = firestore.collection(projectid)
+        ref.onSnapshot((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+            ref.doc(doc.id).delete()
+            })
+        })
+        firestore.collection(projectid).doc(projectid).delete()
         firestore.collection("projects").doc(projectid).delete();
     }
 
@@ -77,7 +96,8 @@ export function DatabaseProvider( {children} ) {
         projects,
         loadingProjects,
         addProject,
-        deleteProject
+        deleteProject,
+        addTaskToProject
     }
     return (
         <DatabaseContext.Provider value={value}>

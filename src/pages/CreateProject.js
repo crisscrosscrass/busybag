@@ -1,21 +1,30 @@
 import React, { useRef, useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
+import { useDB } from '../service/DatabaseContext'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 
-export default function UpdateProfile() {
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
+export default function CreateProject() {
+    const { setPreset } = useContext(AppTransitionContext);
+
+    const projectNameRef = useRef()
+    const projectDescriptionRef = useRef()
+    const projectColorRef = useRef()
+
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
+    const { addProject } = useDB()
+
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [color, setColor] = useState('#047AED');
+
     const history = useHistory()
-    const { setPreset } = useContext(AppTransitionContext);
+    
     async function handleToDashboard(){
         try {
-            await setPreset("moveToRightFromLeft")
+            // await setPreset("fall")
+            await setPreset("cubeToLeft")
             history.push('/')
             // TODO set Dashboard & Taskboard seperate
             // await setPreset("cubeToTop")
@@ -24,29 +33,19 @@ export default function UpdateProfile() {
 
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError('Passwords do not match')
+        if (projectNameRef.current.value.length < 4) {
+            return setError('Enter a suitable Projectname')
         }
-
-        const promises = []
         setLoading(true)
         setError('')
-        if(emailRef.current.value !== currentUser.email){
-            promises.push(updateEmail(emailRef.current.value))
-        }
-        if(passwordRef.current.value){
-            promises.push(updatePassword(passwordRef.current.value))
-        }
-        Promise.all(promises).then(() => {
-            history.push('/')
-        }).catch((error) => {
-            setError('Failed to update account\n'+error)
-            console.log(error)
-        }).finally( () => {
-            setLoading(false)
-        })
+        console.log(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value)
+        //name, description, color, owner
+        await addProject(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
+        setLoading(false)
+        await setPreset("cubeToTop")
+        history.push('/')
     }
 
     async function handleLogout(){
@@ -69,20 +68,18 @@ export default function UpdateProfile() {
                     </div>
                     <h2>Busybag</h2>
                     <p>Keep track and do all</p>
-                    <strong>Email:</strong>{currentUser.email}
                 </div>
                 <div className="navbar-placeholder">
                 </div>
-                <button onClick={handleLogout} >Logout</button>
-                <h2>---</h2>
-                <h2>Update</h2>
-                <div className="card">
+                <h2>Create Project</h2>
+                <div className="createProject">
                     <form onSubmit={handleSubmit}>
-                        <input type="email" placeholder="Email" ref={emailRef} defaultValue={currentUser.email}/>
-                        <input type="password" placeholder="Password"ref={passwordRef} placeholder="Leave blank to keep the same"/>
-                        <input type="password" placeholder="Password Confirm" ref={passwordConfirmRef} placeholder="Leave blank to keep the same"/>
                         {error && <h1>{error}</h1>}
-                        <button type="submit" className="signin___button" disabled={loading}> Save </button>
+                        <input type="text" placeholder="Projectname..." ref={projectNameRef} placeholder="Enter a Project Name"/>
+                        <input type="text" placeholder="Projectdescription..." ref={projectDescriptionRef} placeholder="Describe your Project..."/>
+                        <input type="color" value={color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
+                        <strong>Owner:</strong>{currentUser.email}
+                        <button type="submit" className="signin___button" disabled={loading}> Create </button>
                     </form>
                 </div>
             </div>

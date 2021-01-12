@@ -1,6 +1,7 @@
 var CACHE_NAME = 'task-manager-pwa';
 var urlsToCache = [
   '/',
+  '#',
   '/completed'
 ];
 

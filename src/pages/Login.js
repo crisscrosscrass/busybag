@@ -27,7 +27,7 @@ export default function Login() {
 
     return (
         <section>
-            <div className="container text-center border">
+            <div className="container text-center">
                 <h2>Busybag</h2>
                 <Logo />
                 <p>Keep track and do all</p>
