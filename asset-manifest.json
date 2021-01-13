@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/busybag/static/css/main.a56eb04b.chunk.css",
-    "main.js": "/busybag/static/js/main.b1cec5fe.chunk.js",
-    "main.js.map": "/busybag/static/js/main.b1cec5fe.chunk.js.map",
+    "main.js": "/busybag/static/js/main.b525a6a2.chunk.js",
+    "main.js.map": "/busybag/static/js/main.b525a6a2.chunk.js.map",
     "runtime-main.js": "/busybag/static/js/runtime-main.e299a44c.js",
     "runtime-main.js.map": "/busybag/static/js/runtime-main.e299a44c.js.map",
-    "static/js/2.705ee0f2.chunk.js": "/busybag/static/js/2.705ee0f2.chunk.js",
-    "static/js/2.705ee0f2.chunk.js.map": "/busybag/static/js/2.705ee0f2.chunk.js.map",
+    "static/js/2.286bd340.chunk.js": "/busybag/static/js/2.286bd340.chunk.js",
+    "static/js/2.286bd340.chunk.js.map": "/busybag/static/js/2.286bd340.chunk.js.map",
     "static/js/3.95351ef8.chunk.js": "/busybag/static/js/3.95351ef8.chunk.js",
     "static/js/3.95351ef8.chunk.js.map": "/busybag/static/js/3.95351ef8.chunk.js.map",
     "index.html": "/busybag/index.html",
     "service-worker.js": "/busybag/service-worker.js",
     "service-worker.js.map": "/busybag/service-worker.js.map",
     "static/css/main.a56eb04b.chunk.css.map": "/busybag/static/css/main.a56eb04b.chunk.css.map",
-    "static/js/2.705ee0f2.chunk.js.LICENSE.txt": "/busybag/static/js/2.705ee0f2.chunk.js.LICENSE.txt",
+    "static/js/2.286bd340.chunk.js.LICENSE.txt": "/busybag/static/js/2.286bd340.chunk.js.LICENSE.txt",
     "static/media/unnamed.ea125fe9.png": "/busybag/static/media/unnamed.ea125fe9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.e299a44c.js",
-    "static/js/2.705ee0f2.chunk.js",
+    "static/js/2.286bd340.chunk.js",
     "static/css/main.a56eb04b.chunk.css",
-    "static/js/main.b1cec5fe.chunk.js"
+    "static/js/main.b525a6a2.chunk.js"
   ]
 }
