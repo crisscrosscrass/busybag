@@ -1,10 +1,9 @@
 import React, {useState, useRef,useContext} from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { /*Link*/ useHistory } from 'react-router-dom'
 import {useAuth} from '../service/AuthContext'
 import {useTheme} from '../service/ThemeContext'
 import {useDB} from '../service/DatabaseContext'
-import { AiFillSetting } from 'react-icons/ai'
-import Logo from '../components/Logo'
+import { useProject } from '../service/ProjectContext'
 import BottomNav from '../components/BottomNav'
 import TopNav from '../components/TopNav'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -15,7 +14,8 @@ export default function Dashboard() {
     const [error, setError] = useState('')
     const {currentUser} = useAuth()
     const { themePrimary, toggleTheme } = useTheme()
-    const { projects, deleteProject, addTaskToProject } = useDB()
+    const { projects, deleteProject } = useDB()
+    const { setProjectId, setProjectName,loadingTaskFromProject } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
     
@@ -34,9 +34,18 @@ export default function Dashboard() {
             console.log(error)
         }
     }
-
-    function handleTaskToProject(projectid,task,repeat){
-        addTaskToProject(projectid,task,repeat)
+    async function handleToProjectOverview(projectId,projectName){
+        try {
+            await setProjectId(projectId)
+            await setProjectName(projectName)
+            await loadingTaskFromProject(projectId)
+            await setPreset("newspaper")
+            history.push('/project-overview')
+            // TODO set Dashboard & Taskboard seperate
+            // await setPreset("cubeToTop")
+        } catch (error) {
+            console.log(error)
+        }
     }
     function deleteFromProject(projectid,projectname){
         console.log(`Delete this project ${projectid} now`)
@@ -62,7 +71,7 @@ export default function Dashboard() {
                         {projects.map((item,i) =>  (
                         <div key={i} className="project" style={{backgroundColor:item.data.color}}>
                             <div>{item.data.name}</div>
-                            <button onClick={()=>handleTaskToProject(item.id,"Geschirrspüler",false)}> Open </button>
+                            <button onClick={() =>handleToProjectOverview(item.id,item.data.name)}> Open </button>
                             <button onClick={()=>deleteFromProject(item.id,item.data.name)}> Delete </button>
                         </div>
                         ))}

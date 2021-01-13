@@ -63,10 +63,11 @@ export function DatabaseProvider( {children} ) {
         .catch(error => console.error("Error adding document: ", error))
     }
 
-    function addTaskToProject(projectId,task,repeat){
+    function addTaskToProject(projectId,taskName,taskDescription,user){
         firestore.collection(projectId).add({
-            name:task,
-            user:repeat,
+            name:taskName,
+            description:taskDescription,
+            user:user,
         })
     }
 

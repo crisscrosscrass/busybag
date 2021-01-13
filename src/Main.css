@@ -104,7 +104,10 @@ header{
     text-align: center;
 }
 .text-right{
-    float: right;
+    text-align: right;
+}
+.text-left{
+    text-align: left;
 }
 .align-placeholder{
     position: relative;
@@ -178,7 +181,7 @@ header{
     background-color: white;
 }
 .navbar-bottom a:nth-of-type(1){
-    margin-left: 2em;
+    margin-left: auto;
 }
 .navbar-bottom a:nth-of-type(2){
     margin-left: auto;
@@ -188,7 +191,7 @@ header{
 }
 .navbar-bottom a:nth-of-type(3){
     margin-left: auto;
-    margin-right: 2em;
+    margin-right: auto;
 }
 
 .clearFloar::after{
@@ -242,4 +245,11 @@ header{
 .createProject input[type="text"], .createProject input[type="color"], .createProject button[type="submit"], .createProject button[type="submit"]:disabled{
     width: 100%;
     margin: 0 1em;
+}
+.task-list{
+    display: flex;
+}
+.task-list li{
+    text-decoration: none;
+    list-style-type: none;
 }
