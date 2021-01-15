@@ -10,6 +10,7 @@ export function useProject(){
 export function ProjectProvider( {children} ) {
     const [projectId, setProjectId] = useState('')
     const [projectName, setProjectName] = useState('')
+    const [projectColor, setProjectColor] = useState('')
     const [tasks, setTasks] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -39,6 +40,8 @@ export function ProjectProvider( {children} ) {
         setProjectId,
         projectName,
         setProjectName,
+        projectColor,
+        setProjectColor,
         tasks,
         setTasks,
         loadingTaskFromProject,

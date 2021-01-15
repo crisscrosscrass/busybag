@@ -95,7 +95,7 @@ export default function CreateTask() {
                             <div>
                                 <select ref={projectRef}>
                                 {projects.map((item,i) =>  (
-                                    <option value={item.id}>{item.data.name}</option>                                
+                                    <option key={i} value={item.id}>{item.data.name}</option>
                                     ))}
                                     </select>
                             </div>

@@ -16,8 +16,8 @@ export default function ProjectOverview() {
     const projectColorRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
-    const { addProject } = useDB()
-    const { projectId, projectName, tasks, deleteTaskFromProject } = useProject()
+    const { addProject , shareProjectWithUser } = useDB()
+    const { projectId, projectName, projectColor, tasks, deleteTaskFromProject } = useProject()
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -33,6 +33,7 @@ export default function ProjectOverview() {
             // TODO set Dashboard & Taskboard seperate
             // await setPreset("cubeToTop")
         } catch (error) {
+            console.log(error)
         }
 
     }
@@ -50,6 +51,11 @@ export default function ProjectOverview() {
         setLoading(false)
         await setPreset("cubeToTop")
         history.push('/')
+    }
+
+    async function handleSharingProject(){
+        var email = window.prompt("Which email you wanan share?")
+        shareProjectWithUser(email,projectId)
     }
 
     async function handleLogout(){
@@ -72,7 +78,7 @@ export default function ProjectOverview() {
                     </div>
                     <div className="align-right">
                         <Link>
-                            <BiShareAlt title={currentUser.email} color="red" size="1.5em"/>
+                            <BiShareAlt onClick={handleSharingProject} title={currentUser.email} color="red" size="1.5em"/>
                         </Link>
                         <Link>
                             <AiFillEdit title={currentUser.email} color="red" size="1.5em"/>
@@ -85,15 +91,15 @@ export default function ProjectOverview() {
                 </div>
                 {/* <h5>Project Overview</h5> */}
                 <h2>{projectName}</h2>
-                <p>{projectId}</p>
-                <div className="">
+                <p className="separator" style={{backgroundColor:projectColor}}>&nbsp;</p>
+                <ul className="">
                     {tasks.map((item,i) =>  (
-                            <ul key={i} className="task-list" >
-                                <button onClick={() => deleteTaskFromProject(projectId,item.id)}>done</button> <li>{item.data.name}</li>
+                            <li key={i} className="task-list" >
+                                <button onClick={() => deleteTaskFromProject(projectId,item.id)}>done</button> <p>{item.data.name}</p>
                                 {/* <li>{item.data.name}|{item.id}</li> */}
-                            </ul>
+                            </li>
                             ))}
-                </div>
+                </ul>
                 <BottomNav />
             </div>
         </section>

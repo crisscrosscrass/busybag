@@ -21,9 +21,9 @@ export default function TopNav() {
     return (
         <div>
             <div className="navbar-top">
-                <Link className="align-right" onClick={handleToProfile}>
+                <a className="align-right" onClick={handleToProfile}>
                         <AiFillSetting title={currentUser.email} color="red" size="1.5em"/>
-                    </Link>
+                    </a>
                 <div className="align-placeholder">
                 </div>
                 <h2>Busybag</h2>

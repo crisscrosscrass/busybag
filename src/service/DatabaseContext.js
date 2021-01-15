@@ -15,40 +15,73 @@ export function DatabaseProvider( {children} ) {
     //init values
     useEffect(()=>{
 
-        auth.onAuthStateChanged(function(user) {
+        const unsubscribe = auth.onAuthStateChanged(async function(user) {
             if (user) {
-              // User is signed in.
-              firestore.collection("projects").where("owner", "==", user.email).onSnapshot(snapshop => setProjects(
-                snapshop.docs.map(
-                    doc=>({id:doc.id,data:doc.data()})
+            firestore.collection("projects").where("shared", "array-contains",user.email)
+                .onSnapshot(snapshop => setProjects(
+                    snapshop.docs.map(
+                        doc=>(
+                            {id:doc.id,data:doc.data()}
+                            )
+                        )
                     )
                 )
-            )
-            setLoading(false)
+                setLoading(false)
+            }else{
+                setLoading(false)
             }
           });
 
 
-        let isMounted = true;
-        // firestore.collection("projects").where("user", "==", "fovem84447@nonicamy.com").onSnapshot(snapshop => setProjects(
-        //     snapshop.docs.map(
-        //         doc=>({id:doc.id,data:doc.data()})
-        //         )
-        //     )
-        // )
-        // setLoading(false)
-        return () => { isMounted = false };
+        // let isMounted = true;
+        // return () => { isMounted = false };
+        return unsubscribe
     },[])
 
-    //methods
-    function loadingProjects(user){
-        firestore.collection("projects").where("user", "==", "fovem84447@nonicamy.com").onSnapshot(snapshop => setProjects(
-            snapshop.docs.map(
-                doc=>({id:doc.id,data:doc.data()})
-                )
-            )
-        )
-        setLoading(false)
+    // methods
+    // async function loadingProjects(user) {
+    //     const projectRef = firestore.collection("projects");
+    //     let projectArray = [];
+    //     const allOwnedProjects = await projectRef
+    //       .where("owner", "==", user.email)
+    //       .get();
+    //     const allOSharedProjects = await projectRef
+    //       .where("shared", "array-contains", user.email)
+    //       .get();
+    //     if (allOwnedProjects.empty) {
+    //       console.log("No matching documents.");
+    //     } else {
+    //       allOwnedProjects.forEach((doc) => {
+    //         console.log(doc.id, "=>", doc.data());
+    //         projectArray.push({ id: doc.id, data: doc.data() });
+    //       });
+    //     }
+    //     if (allOSharedProjects.empty) {
+    //       console.log("No matching documents.");
+    //     } else {
+    //       allOSharedProjects.forEach((doc) => {
+    //         console.log(doc.id, "=>", doc.data());
+    //         projectArray.push({ id: doc.id, data: doc.data() });
+    //       });
+    //     }
+    //     setProjects(projectArray);
+    //     setLoading(false);
+    // }
+
+    async function shareProjectWithUser(email,docId){
+    
+        const cityRef = firestore.collection('projects').doc(docId);
+        const doc = await cityRef.get();
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            let data = doc.data()
+            data.shared.push(email)
+            console.log('Document data:', data.shared);
+            firestore.collection('projects').doc(docId).update({
+                shared: data.shared
+            });
+        }
     }
 
     function addProject(project,description, color, user){
@@ -57,6 +90,7 @@ export function DatabaseProvider( {children} ) {
             description:description,
             color:color,
             owner: user,
+            shared:[user]
         }).then(docRef => {
             return docRef.id            
         })
@@ -95,7 +129,7 @@ export function DatabaseProvider( {children} ) {
 
     const value = {
         projects,
-        loadingProjects,
+        shareProjectWithUser,
         addProject,
         deleteProject,
         addTaskToProject

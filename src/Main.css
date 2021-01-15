@@ -1,3 +1,13 @@
+@viewport {  
+    orientation: portrait;  
+  } 
+
+  @media screen and (orientation: landscape) {
+    html {
+      /* Rotate the content container */
+      transform: rotate(-0deg);
+    }
+  }
 :root {
     --color-light-shades: #E13B64;
     --color-light-accent: #A30036;
@@ -29,6 +39,11 @@ body{
     font-size: 1.3125rem;
     line-height: 1.6;
 }
+@media screen and (max-height: 500px) {
+    body{
+        font-size: 1rem;
+    }
+}
 a,a:visited{
     color: var(--color-primary);
 }
@@ -42,34 +57,16 @@ h1,h2,h3{
 h2,h3,p{
     margin-bottom: 0.2em;
 }
+.logo-container{
+    margin: auto;
+    max-width: 40vh;
+}
 
 img{
     display: block;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
     margin: auto;
-}
-
-section{
-    padding: 0.5rem 0;
-    height: 95vh;
-    max-width: 450px;
-    margin: 0;
-    background: white;
-    padding: 1em;
-    border: 1px solid red;
-}
-
-header{
-    padding: 0.5rem 0;
-}
-
-.container{
-    /* margin-inline: auto;
-    width: min(90%, 70.5rem);
-    max-width: 450px; */
-    max-width: 450px;
-    margin: 1em;
-    background: white;
 }
 
 #root {
@@ -92,6 +89,28 @@ header{
     height: 100vh;
     padding: 0.2em;
     border: 1px solid rebeccapurple;
+}
+
+section{
+    padding: 0.5rem 0;
+    max-width: 450px;
+    margin: 0;
+    background: white;
+    padding: 1em;
+    border: 1px solid red;
+}
+
+header{
+    padding: 0.5rem 0;
+}
+
+.container{
+    /* margin-inline: auto;
+    width: min(90%, 70.5rem);
+    max-width: 450px; */
+    max-width: 450px;
+    margin: 1em;
+    background: white;
 }
 
 .flex-center{
@@ -213,6 +232,10 @@ header{
     border: 1px solid black;
     border-radius: 0.2em;
     padding: 0.2em;
+}
+
+.separator{
+    max-height: 3px;
 }
 
 .card{

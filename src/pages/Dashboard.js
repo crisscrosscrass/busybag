@@ -15,7 +15,7 @@ export default function Dashboard() {
     const {currentUser} = useAuth()
     const { themePrimary, toggleTheme } = useTheme()
     const { projects, deleteProject } = useDB()
-    const { setProjectId, setProjectName,loadingTaskFromProject } = useProject()
+    const { setProjectId, setProjectName,setProjectColor,loadingTaskFromProject } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
     
@@ -34,11 +34,12 @@ export default function Dashboard() {
             console.log(error)
         }
     }
-    async function handleToProjectOverview(projectId,projectName){
+    async function handleToProjectOverview(projectId,projectName,projectColor){
         try {
             await setProjectId(projectId)
             await setProjectName(projectName)
             await loadingTaskFromProject(projectId)
+            await setProjectColor(projectColor)
             await setPreset("newspaper")
             history.push('/project-overview')
             // TODO set Dashboard & Taskboard seperate
@@ -71,7 +72,7 @@ export default function Dashboard() {
                         {projects.map((item,i) =>  (
                         <div key={i} className="project" style={{backgroundColor:item.data.color}}>
                             <div>{item.data.name}</div>
-                            <button onClick={() =>handleToProjectOverview(item.id,item.data.name)}> Open </button>
+                            <button onClick={() =>handleToProjectOverview(item.id,item.data.name,item.data.color)}> Open </button>
                             <button onClick={()=>deleteFromProject(item.id,item.data.name)}> Delete </button>
                         </div>
                         ))}

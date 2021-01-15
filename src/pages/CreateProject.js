@@ -21,11 +21,12 @@ export default function CreateProject() {
 
     const history = useHistory()
     
-    async function handleToDashboard(){
+    async function handleToBack(){
         try {
             // await setPreset("fall")
             await setPreset("cubeToLeft")
-            history.push('/')
+            // history.push('/')
+            history.goBack()
             // TODO set Dashboard & Taskboard seperate
             // await setPreset("cubeToTop")
         } catch (error) {
@@ -64,7 +65,7 @@ export default function CreateProject() {
             <div className="container text-center">
                 <div className="navbar-profile-top">
                     <div className="align-placeholder">
-                        <Link className="align-left" onClick={handleToDashboard}><AiOutlineArrowLeft title={currentUser.email} color="red" size="1.5em"/></Link>
+                        <Link className="align-left" onClick={handleToBack}><AiOutlineArrowLeft title={currentUser.email} color="red" size="1.5em"/></Link>
                     </div>
                     <h2>Busybag</h2>
                     <p>Keep track and do all</p>
