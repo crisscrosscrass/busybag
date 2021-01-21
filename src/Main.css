@@ -112,7 +112,9 @@ header{
     margin: 1em;
     background: white;
 }
-
+.flex{
+    display: flex;
+}
 .flex-center{
     display: flex;
     align-items: center;
@@ -248,7 +250,7 @@ header{
 }
 
 .card input[type="email"]:disabled, .card button[type="submit"]:disabled, button:disabled{
-    background: #000;
+    background: rgb(112, 112, 112);
 }
 
 .projects{
@@ -271,8 +273,23 @@ header{
 }
 .task-list{
     display: flex;
+    border-bottom: 1px solid black;
+    margin-bottom: 0.2em;
+}
+.task-listing{
+    overflow: auto;
+    max-height: calc(68vh - 5em);
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 .task-list li{
     text-decoration: none;
     list-style-type: none;
+}
+.task-list p{
+    margin-left: 0.2em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

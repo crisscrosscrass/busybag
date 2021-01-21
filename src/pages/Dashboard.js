@@ -1,4 +1,4 @@
-import React, {useState, useRef,useContext} from 'react'
+import React, {useState, useRef,useContext,useEffect} from 'react'
 import { /*Link*/ useHistory } from 'react-router-dom'
 import {useAuth} from '../service/AuthContext'
 import {useTheme} from '../service/ThemeContext'
@@ -14,10 +14,16 @@ export default function Dashboard() {
     const [error, setError] = useState('')
     const {currentUser} = useAuth()
     const { themePrimary, toggleTheme } = useTheme()
-    const { projects, deleteProject } = useDB()
-    const { setProjectId, setProjectName,setProjectColor,loadingTaskFromProject } = useProject()
+    const { projects, deleteProject, loading } = useDB()
+    const { assignProject } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
+
+
+    useEffect(() => {
+        // TODO remove useEffect after testing
+        // console.log(projects)
+      },[]);
     
 
     const nameRef = useRef()
@@ -34,15 +40,15 @@ export default function Dashboard() {
             console.log(error)
         }
     }
-    async function handleToProjectOverview(projectId,projectName,projectColor){
+    async function handleToProjectOverview(project){
         try {
-            await setProjectId(projectId)
-            await setProjectName(projectName)
-            await loadingTaskFromProject(projectId)
-            await setProjectColor(projectColor)
-            await setPreset("newspaper")
+            await assignProject(project);
+            // await setPreset("newspaper")
+            await setPreset("moveToTopFromBottom")
             history.push('/project-overview')
-            // TODO set Dashboard & Taskboard seperate
+            // TODO 
+            // 1. set Dashboard & Taskboard seperate
+            // 2. implement some load project by ID, and open only if user is shared to this particular project
             // await setPreset("cubeToTop")
         } catch (error) {
             console.log(error)
@@ -64,16 +70,17 @@ export default function Dashboard() {
             <div className="container text-center">
                 <TopNav />
                 <div className="main-container">
+                    {loading && <div>Loading Projects</div>}
                     {error && <h1>{error}</h1>}
                     <div className="projects">
-                        <button onClick={handleToProjectCreate} className="project flex-center">
+                        {!loading && <button onClick={handleToProjectCreate} className="project flex-center">
                             <AiOutlinePlus size="4em"/>
-                        </button>
-                        {projects.map((item,i) =>  (
-                        <div key={i} className="project" style={{backgroundColor:item.data.color}}>
-                            <div>{item.data.name}</div>
-                            <button onClick={() =>handleToProjectOverview(item.id,item.data.name,item.data.color)}> Open </button>
-                            <button onClick={()=>deleteFromProject(item.id,item.data.name)}> Delete </button>
+                        </button>}
+                        {projects.map((project,i) =>  (
+                        <div key={i} className="project" style={{backgroundColor:project.data.color}}>
+                            <div>{project.data.name}</div>
+                            <button onClick={() =>handleToProjectOverview(project)}> Open </button>
+                            <button onClick={()=>deleteFromProject(project.id,project.data.name)}> Delete </button>
                         </div>
                         ))}
                     </div>

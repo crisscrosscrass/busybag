@@ -1,11 +1,12 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext,useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
+import { useProject } from '../service/ProjectContext'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 
-export default function CreateProject() {
+export default function ModifyProject() {
     const { setPreset } = useContext(AppTransitionContext);
 
     const projectNameRef = useRef()
@@ -13,13 +14,19 @@ export default function CreateProject() {
     const projectColorRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
-    const { addProject } = useDB()
+    const { modifyProject } = useDB()
+    const { projectOverview} = useProject()
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [color, setColor] = useState('#047AED');
 
     const history = useHistory()
+
+    useEffect(() => {
+        // TODO remove useEffect after testing
+        console.log(projectOverview)
+      },[]);
     
     async function handleToBack(){
         try {
@@ -41,11 +48,11 @@ export default function CreateProject() {
         }
         setLoading(true)
         setError('')
-        //name, description, color, owner
-        await addProject(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
+        // name, description, color, owner
+        // await modifyProject(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
         await setPreset("cubeToTop")
         setLoading(false)
-        history.push('/')
+        history.goBack()
     }
 
     async function handleLogout(){
@@ -71,15 +78,19 @@ export default function CreateProject() {
                 </div>
                 <div className="navbar-placeholder">
                 </div>
-                <h2>Create Project</h2>
+                <h2>Modify Project:</h2>
+                <h3>{projectOverview.data.name}</h3>
+                <strong>(Owner:{currentUser.email})</strong>
                 <div className="createProject">
                     <form onSubmit={handleSubmit}>
                         {error && <h1>{error}</h1>}
-                        <input type="text" placeholder="Projectname..." ref={projectNameRef} placeholder="Enter a Project Name"/>
-                        <input type="text" placeholder="Projectdescription..." ref={projectDescriptionRef} placeholder="Describe your Project..."/>
-                        <input type="color" value={color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
-                        <strong>Owner:</strong>{currentUser.email}
-                        <button type="submit" className="signin___button" disabled={loading}> Create </button>
+                        <label className="flex">Projectname:</label>
+                        <input type="text" placeholder="Projectname..." value={projectOverview.data.name} ref={projectNameRef} placeholder="Enter a Project Name"/>
+                        <input type="text" placeholder="Projectdescription..." value={projectOverview.data.description} ref={projectDescriptionRef} placeholder="Describe your Project..."/>
+                        <input type="color" value={projectOverview.data.color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
+                        <label className="flex">Owner:</label><input type="text" placeholder="Projectowner..." value={projectOverview.data.owner} placeholder="Owner of the Project..."/>
+                        <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
+                        <button type="submit" className="signin___button" disabled={loading}> Update </button>
                     </form>
                 </div>
             </div>

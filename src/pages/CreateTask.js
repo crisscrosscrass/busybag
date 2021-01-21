@@ -1,7 +1,8 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext,useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
+import { useProject } from '../service/ProjectContext'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 
@@ -14,9 +15,11 @@ export default function CreateTask() {
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
     const { projects, addTaskToProject } = useDB()
+    const { projectId } = useProject()
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [projectInit, setProjectInit] = useState(projectId)
     const [color, setColor] = useState('#047AED');
 
     const history = useHistory()
@@ -40,12 +43,8 @@ export default function CreateTask() {
         }
         setLoading(true)
         setError('')
-        console.log(projectRef.current.value,taskNameRef.current.value,taskDescriptionRef.current.value,currentUser.email)
+        // console.log(projectRef.current.value,taskNameRef.current.value,taskDescriptionRef.current.value,currentUser.email)
         addTaskToProject(projectRef.current.value,taskNameRef.current.value,taskDescriptionRef.current.value,currentUser.email)
-        //name, description, color, owner
-        // await addProject(taskNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
-        // setLoading(false)
-        // await setPreset("cubeToTop")
         setLoading(false)
         history.goBack()
     }
@@ -81,19 +80,19 @@ export default function CreateTask() {
                         <input type="text" placeholder="Projectdescription..." ref={taskDescriptionRef} placeholder="Describe your taks..."/>
                         <div className="text-right">
                             <div>
-                                Repeat? <button>...</button>
+                                Repeat? <button disabled>...</button>
                             </div>
                             <div>
-                                Deadline? <button>...</button>
+                                Deadline? <button disabled>...</button>
                             </div>
                             <div>
-                                Effort? <button>...</button>
+                                Effort? <button disabled>...</button>
                             </div>
                             <div>
-                                Assignee? <button>...</button>
+                                Assignee? <button disabled>...</button>
                             </div>
                             <div>
-                                <select ref={projectRef}>
+                                <select ref={projectRef} value={projectInit} onChange={(e) => setProjectInit(e.target.value)}>
                                 {projects.map((item,i) =>  (
                                     <option key={i} value={item.id}>{item.data.name}</option>
                                     ))}

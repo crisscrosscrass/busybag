@@ -10,11 +10,10 @@ export function useDB(){
 
 export function DatabaseProvider( {children} ) {
     const [projects,setProjects] = useState([]);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     //init values
     useEffect(()=>{
-
         const unsubscribe = auth.onAuthStateChanged(async function(user) {
             if (user) {
             firestore.collection("projects").where("shared", "array-contains",user.email)
@@ -31,47 +30,14 @@ export function DatabaseProvider( {children} ) {
                 setLoading(false)
             }
           });
-
-
         // let isMounted = true;
         // return () => { isMounted = false };
-        return unsubscribe
+        return unsubscribe    
     },[])
 
-    // methods
-    // async function loadingProjects(user) {
-    //     const projectRef = firestore.collection("projects");
-    //     let projectArray = [];
-    //     const allOwnedProjects = await projectRef
-    //       .where("owner", "==", user.email)
-    //       .get();
-    //     const allOSharedProjects = await projectRef
-    //       .where("shared", "array-contains", user.email)
-    //       .get();
-    //     if (allOwnedProjects.empty) {
-    //       console.log("No matching documents.");
-    //     } else {
-    //       allOwnedProjects.forEach((doc) => {
-    //         console.log(doc.id, "=>", doc.data());
-    //         projectArray.push({ id: doc.id, data: doc.data() });
-    //       });
-    //     }
-    //     if (allOSharedProjects.empty) {
-    //       console.log("No matching documents.");
-    //     } else {
-    //       allOSharedProjects.forEach((doc) => {
-    //         console.log(doc.id, "=>", doc.data());
-    //         projectArray.push({ id: doc.id, data: doc.data() });
-    //       });
-    //     }
-    //     setProjects(projectArray);
-    //     setLoading(false);
-    // }
-
     async function shareProjectWithUser(email,docId){
-    
-        const cityRef = firestore.collection('projects').doc(docId);
-        const doc = await cityRef.get();
+        const projectRef = firestore.collection('projects').doc(docId);
+        const doc = await projectRef.get();
         if (!doc.exists) {
             console.log('No such document!');
         } else {
@@ -105,6 +71,12 @@ export function DatabaseProvider( {children} ) {
         })
     }
 
+    function modifyProject(projectId,project){
+        firestore.collection("projects").doc(projectId).update({
+
+        })
+    }
+
     function deleteProject(projectid){
         const ref = firestore.collection(projectid)
         ref.onSnapshot((snapshot) => {
@@ -117,25 +89,20 @@ export function DatabaseProvider( {children} ) {
     }
 
     // https://github.com/oghur/React-todo-App-with-connection-to-Firebase/blob/main/src/App.js
-    // function deletedata(value){
-    //     database.collection("messages").doc(value).delete();
-    // }
-     
-    // function Editdata(id,value){
-    //     database.collection("messages").doc(id).set({
-    //       message: value,
-    //     },{merge:true})
-    // }
+    
 
     const value = {
         projects,
         shareProjectWithUser,
         addProject,
+        modifyProject,
         deleteProject,
-        addTaskToProject
+        addTaskToProject,
+        loading
     }
     return (
         <DatabaseContext.Provider value={value}>
+            {loading && children}
             {!loading && children}
         </DatabaseContext.Provider>
     )

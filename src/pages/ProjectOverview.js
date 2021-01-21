@@ -17,7 +17,7 @@ export default function ProjectOverview() {
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
     const { addProject , shareProjectWithUser } = useDB()
-    const { projectId, projectName, projectColor, tasks, deleteTaskFromProject } = useProject()
+    const { projectId, projectName, projectColor, tasks, deleteTaskFromProject, projectOwner } = useProject()
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -28,14 +28,18 @@ export default function ProjectOverview() {
     async function handleToDashboard(){
         try {
             // await setPreset("fall")
-            await setPreset("newspaper")
+            // await setPreset("newspaper")
+            await setPreset("moveToBottomFromTop")
             history.push('/')
-            // TODO set Dashboard & Taskboard seperate
-            // await setPreset("cubeToTop")
         } catch (error) {
             console.log(error)
         }
 
+    }
+
+    async function handleToModifyProject(){
+        await setPreset("moveToLeftFromRight")
+        history.push('/modify-project')
     }
 
     async function handleSubmit(e){
@@ -54,8 +58,10 @@ export default function ProjectOverview() {
     }
 
     async function handleSharingProject(){
-        var email = window.prompt("Which email you wanan share?")
-        shareProjectWithUser(email,projectId)
+        var email = window.prompt("Which email you wanna share?")
+        if(email){
+            shareProjectWithUser(email,projectId)
+        }
     }
 
     async function handleLogout(){
@@ -76,14 +82,14 @@ export default function ProjectOverview() {
                     <div className="align-placeholder">
                         <Link className="align-left" onClick={handleToDashboard}><AiOutlineArrowLeft title={currentUser.email} color="red" size="1.5em"/></Link>
                     </div>
-                    <div className="align-right">
+                    {currentUser.email === projectOwner ? <div className="align-right">
                         <Link>
                             <BiShareAlt onClick={handleSharingProject} title={currentUser.email} color="red" size="1.5em"/>
                         </Link>
                         <Link>
-                            <AiFillEdit title={currentUser.email} color="red" size="1.5em"/>
+                            <AiFillEdit title={currentUser.email} onClick={handleToModifyProject} color="red" size="1.5em"/>
                         </Link>
-                    </div>
+                    </div> : ""}
                     <h2>Busybag</h2>
                     <p>Keep track and do all</p>
                 </div>
@@ -92,7 +98,7 @@ export default function ProjectOverview() {
                 {/* <h5>Project Overview</h5> */}
                 <h2>{projectName}</h2>
                 <p className="separator" style={{backgroundColor:projectColor}}>&nbsp;</p>
-                <ul className="">
+                <ul className="task-listing">
                     {tasks.map((item,i) =>  (
                             <li key={i} className="task-list" >
                                 <button onClick={() => deleteTaskFromProject(projectId,item.id)}>done</button> <p>{item.data.name}</p>

@@ -4,10 +4,12 @@ import Signup from '../pages/Signup';
 import { AuthProvider } from '../service/AuthContext';
 import { DatabaseProvider } from '../service/DatabaseContext';
 import { ProjectProvider } from '../service/ProjectContext';
+import { ThemeProvider } from '../service/ThemeContext';
 // import { BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import { HashRouter as Router,Switch,Route} from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import CreateProject from '../pages/CreateProject'
+import ModifyProject from '../pages/ModifyProject';
 import CreateTask from '../pages/CreateTask'
 import ProjectOverview from '../pages/ProjectOverview'
 import Taskboard from '../pages/Taskboard'
@@ -15,7 +17,7 @@ import UpdateProfile from '../pages/UpdateProfile'
 import Login from '../pages/Login'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from '../pages/ForgotPassword';
-import { ThemeProvider } from '../service/ThemeContext';
+
 
 import { AppTransitionContext } from '../service/AppTransitionContext'
 import { PageTransition } from '@steveeeie/react-page-transition';
@@ -44,6 +46,7 @@ function App() {
                     <PrivateRoute path="/update-profile" component={UpdateProfile} />
                     <PrivateRoute path="/task-board" component={Taskboard} />
                     <PrivateRoute path="/create-project" component={CreateProject} />
+                    <PrivateRoute path="/modify-project" component={ModifyProject} />
                     <PrivateRoute path="/create-task" component={CreateTask} />
                     <PrivateRoute path="/project-overview" component={ProjectOverview} />
                     
