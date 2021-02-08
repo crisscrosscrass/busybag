@@ -12,6 +12,7 @@ export default function ModifyProject() {
     const projectNameRef = useRef()
     const projectDescriptionRef = useRef()
     const projectColorRef = useRef()
+    const projectOwnerRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
     const { modifyProject } = useDB()
@@ -19,13 +20,19 @@ export default function ModifyProject() {
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-    const [color, setColor] = useState('#047AED');
+
+    const [projectname, setProjectname] = useState('');
+    const [projectdescription, setProjectdescription] = useState('');
+    const [color, setColor] = useState('');
 
     const history = useHistory()
 
     useEffect(() => {
         // TODO remove useEffect after testing
         console.log(projectOverview)
+        setProjectname(projectOverview.data.name)
+        setProjectdescription(projectOverview.data.description)
+        setColor(projectOverview.data.color)
       },[]);
     
     async function handleToBack(){
@@ -50,9 +57,24 @@ export default function ModifyProject() {
         setError('')
         // name, description, color, owner
         // await modifyProject(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
+        // console.log(projectNameRef.current.value,projectDescriptionRef.current.value,projectColorRef.current.value,currentUser.email)
+        console.log(projectOverview)
+        const newProjectDetails = {
+            data : {
+                name:projectNameRef.current.value,
+                description: projectDescriptionRef.current.value,
+                color: projectColorRef.current.value,
+                owner: projectOwnerRef.current.value,
+                shared: projectOverview.data.shared
+            },
+            id: projectOverview.id
+        }
+        console.log(newProjectDetails)
+        await modifyProject(newProjectDetails)
         await setPreset("cubeToTop")
         setLoading(false)
-        history.goBack()
+        // history.goBack()
+        history.push('/')
     }
 
     async function handleLogout(){
@@ -85,10 +107,10 @@ export default function ModifyProject() {
                     <form onSubmit={handleSubmit}>
                         {error && <h1>{error}</h1>}
                         <label className="flex">Projectname:</label>
-                        <input type="text" placeholder="Projectname..." value={projectOverview.data.name} ref={projectNameRef} placeholder="Enter a Project Name"/>
-                        <input type="text" placeholder="Projectdescription..." value={projectOverview.data.description} ref={projectDescriptionRef} placeholder="Describe your Project..."/>
-                        <input type="color" value={projectOverview.data.color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
-                        <label className="flex">Owner:</label><input type="text" placeholder="Projectowner..." value={projectOverview.data.owner} placeholder="Owner of the Project..."/>
+                        <input type="text" placeholder="Projectname..." value={projectname} onChange={e => setProjectname(e.target.value)} ref={projectNameRef} placeholder="Enter a Project Name"/>
+                        <input type="text" placeholder="Projectdescription..." value={projectdescription} onChange={e => setProjectdescription(e.target.value)} ref={projectDescriptionRef} placeholder="Describe your Project..."/>
+                        <input type="color" value={color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
+                        <label className="flex">Owner:</label><input type="text" placeholder="Projectowner..." value={projectOverview.data.owner} ref={projectOwnerRef} placeholder="Owner of the Project..."/>
                         <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
                         <button type="submit" className="signin___button" disabled={loading}> Update </button>
                     </form>

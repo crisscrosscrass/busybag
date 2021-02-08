@@ -56,7 +56,8 @@ export function DatabaseProvider( {children} ) {
             description:description,
             color:color,
             owner: user,
-            shared:[user]
+            shared:[user],
+            history:[]
         }).then(docRef => {
             return docRef.id            
         })
@@ -71,9 +72,36 @@ export function DatabaseProvider( {children} ) {
         })
     }
 
-    function modifyProject(projectId,project){
-        firestore.collection("projects").doc(projectId).update({
+    async function addHistoryEntryToProject(email,docId, taskName){
+        const projectRef = firestore.collection('projects').doc(docId);
+        const doc = await projectRef.get();
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            var currentdate = new Date(); 
+            var datetime = "Time: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " - "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            let data = doc.data()
+            console.log(data);
+            data.history.push(`${email} finish Task '${taskName}' at ${datetime}`)
+            console.log('Document data:', data.history);
+            firestore.collection('projects').doc(docId).update({
+                history: data.history
+            });
+        }
+    }
 
+    function modifyProject(project){
+        firestore.collection("projects").doc(project.id).update({
+            color: project.data.color,
+            description: project.data.description,
+            name: project.data.name,
+            owner: project.data.owner,
+            
         })
     }
 
@@ -98,6 +126,7 @@ export function DatabaseProvider( {children} ) {
         modifyProject,
         deleteProject,
         addTaskToProject,
+        addHistoryEntryToProject,
         loading
     }
     return (

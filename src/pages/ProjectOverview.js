@@ -16,7 +16,7 @@ export default function ProjectOverview() {
     const projectColorRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
-    const { addProject , shareProjectWithUser } = useDB()
+    const { addProject , shareProjectWithUser, addHistoryEntryToProject } = useDB()
     const { projectId, projectName, projectColor, tasks, deleteTaskFromProject, projectOwner } = useProject()
 
     const [error, setError] = useState('')
@@ -64,6 +64,11 @@ export default function ProjectOverview() {
         }
     }
 
+    async function handleCompleteTask(projectId,itemId, taskName){
+        await addHistoryEntryToProject(currentUser.email,projectId, taskName)
+        await deleteTaskFromProject(projectId,itemId)
+    }
+
     async function handleLogout(){
         setError('')
         try {
@@ -101,7 +106,7 @@ export default function ProjectOverview() {
                 <ul className="task-listing">
                     {tasks.map((item,i) =>  (
                             <li key={i} className="task-list" >
-                                <button onClick={() => deleteTaskFromProject(projectId,item.id)}>done</button> <p>{item.data.name}</p>
+                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button> <p>{item.data.name}</p>
                                 {/* <li>{item.data.name}|{item.id}</li> */}
                             </li>
                             ))}
