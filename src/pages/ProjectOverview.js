@@ -69,6 +69,10 @@ export default function ProjectOverview() {
         await deleteTaskFromProject(projectId,itemId)
     }
 
+    async function handleTaskMenu(taskName){
+        console.log(window.prompt(`Who you want to assign this ${taskName} Task?`));
+    }
+
     async function handleLogout(){
         setError('')
         try {
@@ -106,7 +110,7 @@ export default function ProjectOverview() {
                 <ul className="task-listing">
                     {tasks.map((item,i) =>  (
                             <li key={i} className="task-list" >
-                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button> <p>{item.data.name}</p>
+                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button><button onClick={() => handleTaskMenu(item.data.name)}>assign</button> <p>{item.data.name}</p>
                                 {/* <li>{item.data.name}|{item.id}</li> */}
                             </li>
                             ))}

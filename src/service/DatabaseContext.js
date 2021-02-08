@@ -72,6 +72,20 @@ export function DatabaseProvider( {children} ) {
         })
     }
 
+    class HistoryEntry{
+        constructor(email="",task=""){
+          this.email = email;
+          this.task = task;
+          this.currentdate = new Date();
+          this.datetime ="Time: " + this.currentdate.getDate() + "/"
+          + (this.currentdate.getMonth()+1)  + "/" 
+          + this.currentdate.getFullYear() + " - "  
+          + this.currentdate.getHours() + ":"  
+          + this.currentdate.getMinutes() + ":" 
+          + this.currentdate.getSeconds();
+        }
+      }
+
     async function addHistoryEntryToProject(email,docId, taskName){
         const projectRef = firestore.collection('projects').doc(docId);
         const doc = await projectRef.get();
@@ -87,7 +101,7 @@ export function DatabaseProvider( {children} ) {
                 + currentdate.getSeconds();
             let data = doc.data()
             console.log(data);
-            data.history.push(`${email} finish Task '${taskName}' at ${datetime}`)
+            data.history.push({email: email, task: taskName, currentdate: currentdate, datetime: datetime})
             console.log('Document data:', data.history);
             firestore.collection('projects').doc(docId).update({
                 history: data.history

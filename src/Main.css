@@ -38,6 +38,8 @@ body{
     font-weight: 400;
     font-size: 1.3125rem;
     line-height: 1.6;
+    position: fixed;
+    width: 100%;
 }
 @media screen and (max-height: 500px) {
     body{
