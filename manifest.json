@@ -8,6 +8,31 @@
       "type": "image/x-icon"
     },
     {
+      "src": "iconx/android-36x36.png",
+      "type": "image/png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "iconx/android-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "iconx/android-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "iconx/android-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "iconx/android-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
       "src": "iconx/pwa-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
