@@ -96,6 +96,8 @@ img{
 section{
     padding: 0.5rem 0;
     max-width: 450px;
+    max-height: calc(120vh - 5em);
+    overflow: auto;
     margin: 0;
     background: white;
     padding: 1em;
@@ -121,6 +123,11 @@ header{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.flex-center-start{
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 .text-center{
@@ -294,4 +301,22 @@ header{
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.history-list{
+    overflow: auto;
+    max-height: calc(90vh - 5em);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.history-list li{
+    text-decoration: none;
+    list-style-type: none;
+    font-size: 0.7em;
+    padding: 1em;
+}
+
+.history-list li > div > div {
+    margin-right: 1em;
 }

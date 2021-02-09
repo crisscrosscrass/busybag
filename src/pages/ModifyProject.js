@@ -3,7 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
 import { useProject } from '../service/ProjectContext'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineUserAdd } from 'react-icons/ai'
+import { FcTimeline } from 'react-icons/fc'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 
 export default function ModifyProject() {
@@ -38,7 +39,7 @@ export default function ModifyProject() {
     async function handleToBack(){
         try {
             // await setPreset("fall")
-            await setPreset("cubeToLeft")
+            await setPreset("moveToRightFromLeft")
             // history.push('/')
             history.goBack()
             // TODO set Dashboard & Taskboard seperate
@@ -88,6 +89,11 @@ export default function ModifyProject() {
 
     }
 
+    async function handleToHistoryView(){
+        await setPreset("moveToLeftFromRight")
+        history.push('/history-view')
+    }
+
     return (
         <section>
             <div className="container text-center">
@@ -103,6 +109,9 @@ export default function ModifyProject() {
                 <h2>Modify Project:</h2>
                 <h3>{projectOverview.data.name}</h3>
                 <strong>(Owner:{currentUser.email})</strong>
+                <div className="container">
+                    <button onClick={handleToHistoryView}><FcTimeline size="2.5em" /></button>
+                </div>
                 <div className="createProject">
                     <form onSubmit={handleSubmit}>
                         {error && <h1>{error}</h1>}
@@ -110,10 +119,14 @@ export default function ModifyProject() {
                         <input type="text" placeholder="Projectname..." value={projectname} onChange={e => setProjectname(e.target.value)} ref={projectNameRef} placeholder="Enter a Project Name"/>
                         <input type="text" placeholder="Projectdescription..." value={projectdescription} onChange={e => setProjectdescription(e.target.value)} ref={projectDescriptionRef} placeholder="Describe your Project..."/>
                         <input type="color" value={color} onChange={e => setColor(e.target.value)} ref={projectColorRef} />
-                        <label className="flex">Owner:</label><input type="text" placeholder="Projectowner..." value={projectOverview.data.owner} ref={projectOwnerRef} placeholder="Owner of the Project..."/>
-                        <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
+                        <label className="flex">Owner:</label><input type="text" placeholder="Projectowner..." value={projectOverview.data.owner} readOnly={projectOverview.data.owner} ref={projectOwnerRef} placeholder="Owner of the Project..."/>
                         <button type="submit" className="signin___button" disabled={loading}> Update </button>
                     </form>
+                </div>
+                <div className="container text-center">
+                    <h1><AiOutlineUserAdd size="2.5em" /></h1>
+                    <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
+                    <button>+ Add Member</button>
                 </div>
             </div>
         </section>

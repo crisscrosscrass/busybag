@@ -70,6 +70,7 @@ export function DatabaseProvider( {children} ) {
             description:taskDescription,
             user:user,
         })
+        addHistoryEntryToProject(user,projectId,taskName);
     }
 
     class HistoryEntry{

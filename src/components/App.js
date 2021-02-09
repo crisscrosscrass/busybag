@@ -12,6 +12,7 @@ import CreateProject from '../pages/CreateProject'
 import ModifyProject from '../pages/ModifyProject';
 import CreateTask from '../pages/CreateTask'
 import ProjectOverview from '../pages/ProjectOverview'
+import HistoryView from '../pages/HistoryView'
 import Taskboard from '../pages/Taskboard'
 import UpdateProfile from '../pages/UpdateProfile'
 import Login from '../pages/Login'
@@ -49,6 +50,7 @@ function App() {
                     <PrivateRoute path="/modify-project" component={ModifyProject} />
                     <PrivateRoute path="/create-task" component={CreateTask} />
                     <PrivateRoute path="/project-overview" component={ProjectOverview} />
+                    <PrivateRoute path="/history-view" component={HistoryView} />
                     
                   <Route path="/signup" component={Signup} />
                   <Route path="/login" component={Login} />
