@@ -120,6 +120,19 @@ export function DatabaseProvider( {children} ) {
         })
     }
 
+    async function getCurrentProjectData(projectid){
+        const projectRef = firestore.collection('projects').doc(projectid);
+        const doc = await projectRef.get();
+        if (!doc.exists) {
+            return "";
+        } else {
+            let data = doc.data()
+            return data;
+        }
+
+        
+    }
+
     function deleteProject(projectid){
         const ref = firestore.collection(projectid)
         ref.onSnapshot((snapshot) => {
@@ -139,6 +152,7 @@ export function DatabaseProvider( {children} ) {
         shareProjectWithUser,
         addProject,
         modifyProject,
+        getCurrentProjectData,
         deleteProject,
         addTaskToProject,
         addHistoryEntryToProject,

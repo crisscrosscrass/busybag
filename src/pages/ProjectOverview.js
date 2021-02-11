@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
@@ -16,14 +16,19 @@ export default function ProjectOverview() {
     const projectColorRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
-    const { addProject , shareProjectWithUser, addHistoryEntryToProject } = useDB()
-    const { projectId, projectName, projectColor, tasks, deleteTaskFromProject, projectOwner } = useProject()
+    const { addProject , shareProjectWithUser, addHistoryEntryToProject,getCurrentProjectData } = useDB()
+    const { projectId, projectName, projectColor, tasks, deleteTaskFromProject, projectOwner, projectOverview , assignProject} = useProject()
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [color, setColor] = useState('#047AED');
 
     const history = useHistory()
+
+    useEffect(() => {
+        // TODO remove useEffect after testing
+        console.log(projectOverview)
+      },[]);
     
     async function handleToDashboard(){
         try {
@@ -60,8 +65,15 @@ export default function ProjectOverview() {
     async function handleSharingProject(){
         var email = window.prompt("Which email you wanna share?")
         if(email){
-            shareProjectWithUser(email,projectId)
-        }
+            const projectInfo = await shareProjectWithUser(email,projectId)
+            const newProjectInfo = await getCurrentProjectData(projectId);
+            const newProjectData = {
+                id: projectId,
+                data: newProjectInfo
+            }
+            console.log(newProjectData);
+            await assignProject(newProjectData);
+            }
     }
 
     async function handleCompleteTask(projectId,itemId, taskName){

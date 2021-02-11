@@ -44,7 +44,7 @@ export default function Dashboard() {
         try {
             await assignProject(project);
             // await setPreset("newspaper")
-            await setPreset("moveToTopFromBottom")
+            await setPreset("roomToTop")
             history.push('/project-overview')
             // TODO 
             // 1. set Dashboard & Taskboard seperate

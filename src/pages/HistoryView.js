@@ -46,7 +46,7 @@ export default function HistoryView() {
                 <div className="navbar-placeholder">
                 </div>
                 <ul className="history-list text-left">
-                    {projectOverview.data.history.map((item, index)=> <li key={index}>
+                    {projectOverview.data.history.reverse().map((item, index)=> <li key={index}>
                             <div className="flex-center-start">
                                 <div><AiOutlinePlusCircle size="2em"/></div>
                                 <div>
