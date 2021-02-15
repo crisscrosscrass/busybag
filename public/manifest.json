@@ -35,7 +35,8 @@
     {
       "src": "iconx/pwa-192x192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "iconx/pwa-512x512.png",

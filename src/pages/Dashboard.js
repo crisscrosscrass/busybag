@@ -44,7 +44,7 @@ export default function Dashboard() {
         try {
             await assignProject(project);
             // await setPreset("newspaper")
-            await setPreset("roomToTop")
+            await setPreset("pushTopPullBottom")
             history.push('/project-overview')
             // TODO 
             // 1. set Dashboard & Taskboard seperate
@@ -55,7 +55,6 @@ export default function Dashboard() {
         }
     }
     function deleteFromProject(projectid,projectname){
-        console.log(`Delete this project ${projectid} now`)
         if(window.confirm(`Delete everything on ${projectname}?`)){
             deleteProject(projectid)
         }
@@ -77,10 +76,10 @@ export default function Dashboard() {
                             <AiOutlinePlus size="4em"/>
                         </button>}
                         {projects.map((project,i) =>  (
-                        <div key={i} className="project" style={{backgroundColor:project.data.color}}>
+                        <div key={i} className="project" style={{backgroundColor:project.data.color}} onClick={() =>handleToProjectOverview(project)}>
                             <div>{project.data.name}</div>
-                            <button onClick={() =>handleToProjectOverview(project)}> Open </button>
-                            <button onClick={()=>deleteFromProject(project.id,project.data.name)}> Delete </button>
+                            {/* <button > Open </button> */}
+                            {/* <button onClick={()=>deleteFromProject(project.id,project.data.name)}> Delete </button> */}
                         </div>
                         ))}
                     </div>

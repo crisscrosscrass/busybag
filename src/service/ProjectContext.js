@@ -77,6 +77,7 @@ export function ProjectProvider( {children} ) {
         projectId,
         projectOwner,
         projectOverview,
+        setProjectShared,
         loadingTasksFromProject,
         deleteTaskFromProject
     }

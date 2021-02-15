@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
 import { useProject } from '../service/ProjectContext'
-import { AiFillSetting, AiOutlineArrowLeft, AiFillEdit } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiFillEdit } from 'react-icons/ai'
 import { BiShareAlt } from 'react-icons/bi'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 import BottomNav from '../components/BottomNav';
@@ -34,7 +34,7 @@ export default function ProjectOverview() {
         try {
             // await setPreset("fall")
             // await setPreset("newspaper")
-            await setPreset("moveToBottomFromTop")
+            await setPreset("pushBottomPullTop")
             history.push('/')
         } catch (error) {
             console.log(error)
@@ -43,7 +43,7 @@ export default function ProjectOverview() {
     }
 
     async function handleToModifyProject(){
-        await setPreset("moveToLeftFromRight")
+        await setPreset("fadeFromBottom")
         history.push('/modify-project')
     }
 
@@ -71,7 +71,6 @@ export default function ProjectOverview() {
                 id: projectId,
                 data: newProjectInfo
             }
-            console.log(newProjectData);
             await assignProject(newProjectData);
             }
     }
@@ -79,6 +78,12 @@ export default function ProjectOverview() {
     async function handleCompleteTask(projectId,itemId, taskName){
         await addHistoryEntryToProject(currentUser.email,projectId, taskName)
         await deleteTaskFromProject(projectId,itemId)
+        const newProjectInfo = await getCurrentProjectData(projectId);
+            const newProjectData = {
+                id: projectId,
+                data: newProjectInfo
+            }
+        await assignProject(newProjectData);
     }
 
     async function handleTaskMenu(taskName){
@@ -103,18 +108,16 @@ export default function ProjectOverview() {
                     <div className="align-placeholder">
                         <Link className="align-left" onClick={handleToDashboard}><AiOutlineArrowLeft title={currentUser.email} color="red" size="1.5em"/></Link>
                     </div>
-                    {currentUser.email === projectOwner ? <div className="align-right">
+                     <div className="align-right">
+                     {currentUser.email === projectOwner ?
                         <Link>
                             <BiShareAlt onClick={handleSharingProject} title={currentUser.email} color="red" size="1.5em"/>
                         </Link>
+                        : ""}
                         <Link>
                             <AiFillEdit title={currentUser.email} onClick={handleToModifyProject} color="red" size="1.5em"/>
                         </Link>
-                    </div> : ""}
-                    <h2>Busybag</h2>
-                    <p>Keep track and do all</p>
-                </div>
-                <div className="navbar-placeholder">
+                    </div> 
                 </div>
                 {/* <h5>Project Overview</h5> */}
                 <h2>{projectName}</h2>
@@ -122,7 +125,7 @@ export default function ProjectOverview() {
                 <ul className="task-listing">
                     {tasks.map((item,i) =>  (
                             <li key={i} className="task-list" >
-                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button><button onClick={() => handleTaskMenu(item.data.name)}>assign</button> <p>{item.data.name}</p>
+                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button><button onClick={() => handleTaskMenu(item.data.name)}>assign</button> <p onClick={() => window.prompt(`Name: ${item.data.name} \nDescription: ${item.data.description}`)}>{item.data.name}</p>
                                 {/* <li>{item.data.name}|{item.id}</li> */}
                             </li>
                             ))}

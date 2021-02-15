@@ -55,6 +55,7 @@
     -->
 
     <script>
+      /*
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('svcWorker.js').then(function(registration) {
@@ -67,6 +68,34 @@
         });
       } else {
         console.log('Service Worker is not supported by your browser.');
+      }
+
+      */
+
+      
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.userChoice.then(function(choiceResult){
+            console.log(choiceResult.outcome);
+            if(choiceResult.outcome == 'dismissed'){
+                console.log('User cancelled home screen install');
+            }else{
+                console.log('User added to home screen');
+            }
+        });
+
+        
+      });
+
+      const isIos = () => {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+          return /iphone|ipad|ipod/.test( userAgent );
+        }
+      // Detects if device is in standalone mode
+      const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+      // Checks if should display install popup notification:
+      if (isIos() && !isInStandaloneMode()) {
+        this.setState({ showInstallMessage: true });
       }
     </script>
   </body>

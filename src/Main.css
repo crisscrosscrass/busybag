@@ -18,6 +18,9 @@
     --color-dark-accent:#A7AABD;
     --color-dark-shades: #424656;
 
+    --color-danger:#ff0000;
+    --color-info:#00BCD4;
+
 
     --ff-primary: 'Roboto', sans-serif;
     --ff-accent: 'Playfair Display', serif;
@@ -218,6 +221,8 @@ header{
     position: relative;
     top: -1.0em;
     background-color: #ffffff;
+    border-radius: 50%;
+    border: -1px solid white;
 }
 .navbar-bottom a:nth-of-type(3){
     margin-left: auto;
@@ -237,6 +242,28 @@ header{
     border-radius: 3em;
     background-color: var(--color-primary);
     padding: 0.8em 0;
+}
+
+.history___button{
+    cursor: pointer;
+    outline-style: none;
+    color: white;
+    border: 1px solid var(--color-info);
+    border-radius: 3em;
+    background-color: var(--color-info);
+    padding: 0.8em 0;
+    width: 100%;
+}
+
+.delete___button{
+    cursor: pointer;
+    outline-style: none;
+    color: white;
+    border: 1px solid var(--color-danger);
+    border-radius: 3em;
+    background-color: var(--color-danger);
+    padding: 0.8em 0;
+    width: 100%;
 }
 
 .border{
@@ -270,6 +297,11 @@ header{
     border: 1px solid black;
     border-radius: 0.2em;
     margin: 0.2em;
+    cursor: pointer;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .project input[type="text"]{
     width: 80%;
@@ -287,7 +319,7 @@ header{
 }
 .task-listing{
     overflow: auto;
-    max-height: calc(68vh - 5em);
+    max-height: calc(84vh - 5em);
     width: 100%;
     margin: 0;
     padding: 0;

@@ -3,8 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../service/AuthContext'
 import { useDB } from '../service/DatabaseContext'
 import { useProject } from '../service/ProjectContext'
-import { AiOutlineArrowLeft, AiOutlineUserAdd } from 'react-icons/ai'
-import { FcTimeline } from 'react-icons/fc'
+import { AiOutlineArrowLeft, AiOutlineUserAdd, AiOutlineUnorderedList } from 'react-icons/ai'
+import { MdDeleteForever } from 'react-icons/md'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 
 export default function ModifyProject() {
@@ -16,7 +16,7 @@ export default function ModifyProject() {
     const projectOwnerRef = useRef()
 
     const { currentUser , updatePassword, updateEmail, logout } = useAuth()
-    const { modifyProject } = useDB()
+    const { modifyProject, deleteProject } = useDB()
     const { projectOverview} = useProject()
 
     const [error, setError] = useState('')
@@ -39,7 +39,7 @@ export default function ModifyProject() {
     async function handleToBack(){
         try {
             // await setPreset("fall")
-            await setPreset("moveToRightFromLeft")
+            await setPreset("moveToBottomFromTop")
             // history.push('/')
             history.goBack()
             // TODO set Dashboard & Taskboard seperate
@@ -94,6 +94,14 @@ export default function ModifyProject() {
         history.push('/history-view')
     }
 
+    async function deleteFromProject(){
+        if(window.confirm(`Delete everything including ${projectname}?`)){
+            deleteProject(projectOverview.id)
+            await setPreset("fall")
+            history.push('/')
+        }
+    }
+
     return (
         <section>
             <div className="container text-center">
@@ -101,17 +109,20 @@ export default function ModifyProject() {
                     <div className="align-placeholder">
                         <Link className="align-left" onClick={handleToBack}><AiOutlineArrowLeft title={currentUser.email} color="red" size="1.5em"/></Link>
                     </div>
-                    <h2>Busybag</h2>
-                    <p>Keep track and do all</p>
                 </div>
-                <div className="navbar-placeholder">
-                </div>
-                <h2>Modify Project:</h2>
+                <h2>Modify:</h2>
                 <h3>{projectOverview.data.name}</h3>
                 <strong>(Owner:{currentUser.email})</strong>
                 <div className="container">
-                    <button onClick={handleToHistoryView}><FcTimeline size="2.5em" /></button>
+                    <button onClick={handleToHistoryView} className="history___button"><AiOutlineUnorderedList size="1em" /> History</button>
                 </div>
+                {currentUser.email === projectOverview.data.owner ? <div className="container">
+                    <button type="submit" className="delete___button" onClick={()=>deleteFromProject()}> <MdDeleteForever size="1em" /> {projectOverview.data.name} </button>
+                </div>
+                
+                :""}
+
+                {currentUser.email === projectOverview.data.owner ? 
                 <div className="createProject">
                     <form onSubmit={handleSubmit}>
                         {error && <h1>{error}</h1>}
@@ -123,6 +134,9 @@ export default function ModifyProject() {
                         <button type="submit" className="signin___button" disabled={loading}> Update </button>
                     </form>
                 </div>
+                : ""}
+                
+                
                 <div className="container text-center">
                     <h1><AiOutlineUserAdd size="2.5em" /></h1>
                     <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
