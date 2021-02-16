@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/busybag/static/css/main.a6398ad0.chunk.css",
-    "main.js": "/busybag/static/js/main.0d7ea6f2.chunk.js",
-    "main.js.map": "/busybag/static/js/main.0d7ea6f2.chunk.js.map",
+    "main.css": "/busybag/static/css/main.8c40e3f0.chunk.css",
+    "main.js": "/busybag/static/js/main.c8267ccc.chunk.js",
+    "main.js.map": "/busybag/static/js/main.c8267ccc.chunk.js.map",
     "runtime-main.js": "/busybag/static/js/runtime-main.36a6a261.js",
     "runtime-main.js.map": "/busybag/static/js/runtime-main.36a6a261.js.map",
     "static/js/2.d528f282.chunk.js": "/busybag/static/js/2.d528f282.chunk.js",
@@ -12,14 +12,14 @@
     "index.html": "/busybag/index.html",
     "service-worker.js": "/busybag/service-worker.js",
     "service-worker.js.map": "/busybag/service-worker.js.map",
-    "static/css/main.a6398ad0.chunk.css.map": "/busybag/static/css/main.a6398ad0.chunk.css.map",
+    "static/css/main.8c40e3f0.chunk.css.map": "/busybag/static/css/main.8c40e3f0.chunk.css.map",
     "static/js/2.d528f282.chunk.js.LICENSE.txt": "/busybag/static/js/2.d528f282.chunk.js.LICENSE.txt",
     "static/media/unnamed.ea125fe9.png": "/busybag/static/media/unnamed.ea125fe9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.36a6a261.js",
     "static/js/2.d528f282.chunk.js",
-    "static/css/main.a6398ad0.chunk.css",
-    "static/js/main.0d7ea6f2.chunk.js"
+    "static/css/main.8c40e3f0.chunk.css",
+    "static/js/main.c8267ccc.chunk.js"
   ]
 }
