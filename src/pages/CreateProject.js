@@ -12,7 +12,7 @@ export default function CreateProject() {
     const projectDescriptionRef = useRef()
     const projectColorRef = useRef()
 
-    const { currentUser , updatePassword, updateEmail, logout } = useAuth()
+    const { currentUser } = useAuth()
     const { addProject } = useDB()
 
     const [error, setError] = useState('')
@@ -46,17 +46,6 @@ export default function CreateProject() {
         await setPreset("cubeToTop")
         setLoading(false)
         history.push('/')
-    }
-
-    async function handleLogout(){
-        setError('')
-        try {
-            await logout()
-            history.push('/login')
-        } catch (error) {
-            setError('Failed to log out')
-        }
-
     }
 
     return (

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../components/Logo';
 import { useAuth } from '../service/AuthContext'
+import PWAPrompt from 'react-ios-pwa-prompt'
 
 export default function Login() {
     const emailRef = useRef()
@@ -27,6 +28,7 @@ export default function Login() {
 
     return (
         <section>
+            <PWAPrompt />
             <div className="container text-center">
                 <h2>Busybag</h2>
                 <Logo />

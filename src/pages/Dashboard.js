@@ -1,4 +1,4 @@
-import React, {useState, useRef,useContext,useEffect} from 'react'
+import React, {useState, useContext,useEffect} from 'react'
 import { /*Link*/ useHistory } from 'react-router-dom'
 import {useAuth} from '../service/AuthContext'
 import {useTheme} from '../service/ThemeContext'
@@ -25,8 +25,6 @@ export default function Dashboard() {
         // console.log(projects)
       },[]);
     
-
-    const nameRef = useRef()
     function changeColor(){
         toggleTheme(themePrimary)
     }
@@ -54,11 +52,6 @@ export default function Dashboard() {
             console.log(error)
         }
     }
-    function deleteFromProject(projectid,projectname){
-        if(window.confirm(`Delete everything on ${projectname}?`)){
-            deleteProject(projectid)
-        }
-    }
 
     const styleTest = {
         backgroundColor: themePrimary,
@@ -79,7 +72,6 @@ export default function Dashboard() {
                         <div key={i} className="project" style={{backgroundColor:project.data.color}} onClick={() =>handleToProjectOverview(project)}>
                             <div>{project.data.name}</div>
                             {/* <button > Open </button> */}
-                            {/* <button onClick={()=>deleteFromProject(project.id,project.data.name)}> Delete </button> */}
                         </div>
                         ))}
                     </div>
