@@ -37,6 +37,7 @@ export default function Repeatmodal({showModal, setShowRepeatModal, amountTimefr
     }
 
     function handlingSubmit(){
+        // console.log(amountTimeframe,typeTimeframeRef.current.value,radioType,getRadioSelectedInput(radioType));
         if (getRadioSelectedInput(radioType) == "") {
             endRepeatFrame = {
                 type:"never",

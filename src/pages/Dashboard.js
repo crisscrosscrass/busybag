@@ -12,9 +12,9 @@ import { AppTransitionContext } from '../service/AppTransitionContext'
 
 export default function Dashboard() {
     const [error, setError] = useState('')
-    const {currentUser} = useAuth()
+    const {currentUser, loading} = useAuth()
     const { themePrimary, toggleTheme } = useTheme()
-    const { projects, deleteProject, loading } = useDB()
+    const { projects, deleteProject } = useDB()
     const { assignProject } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
@@ -22,7 +22,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         // TODO remove useEffect after testing
-        // console.log(projects)
+        
       },[]);
     
     function changeColor(){

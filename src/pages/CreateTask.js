@@ -126,7 +126,7 @@ export default function CreateTask() {
                         <input type="text" placeholder="Projectdescription..." ref={taskDescriptionRef} placeholder="Describe your taks..."/>
                         <div className="text-right">
                             <div>
-                                Repeat? <button onClick={openRepeatModal}>{repeatFrame}</button>
+                                Recurring? <button onClick={openRepeatModal}>{repeatFrame}</button>
                             </div>
                             <div>
                                 Deadline? <button disabled>...</button>
