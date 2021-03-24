@@ -10,24 +10,27 @@ export function useDB(){
 
 export function DatabaseProvider( {children} ) {
     const [projects,setProjects] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [projectloading, setProjectloading] = useState(true)
 
     //init values
     useEffect(()=>{
         const unsubscribe = auth.onAuthStateChanged(async function(user) {
             if (user) {
             firestore.collection("projects").where("shared", "array-contains",user.email)
-                .onSnapshot(snapshop => setProjects(
-                    snapshop.docs.map(
-                        doc=>(
-                            {id:doc.id,data:doc.data()}
+                .onSnapshot(snapshop => { 
+                    setProjects(
+                        snapshop.docs.map(
+                            doc=>(
+                                {id:doc.id,data:doc.data()}
+                                )
                             )
                         )
-                    )
+                    setProjectloading(false)
+                  }
                 )
-                setLoading(false)
+                
             }else{
-                setLoading(false)
+                setProjectloading(false)
             }
           });
         // let isMounted = true;
@@ -156,12 +159,11 @@ export function DatabaseProvider( {children} ) {
         deleteProject,
         addTaskToProject,
         addHistoryEntryToProject,
-        loading
+        projectloading,
     }
     return (
         <DatabaseContext.Provider value={value}>
-            {loading && children}
-            {!loading && children}
+            {children}
         </DatabaseContext.Provider>
     )
 }

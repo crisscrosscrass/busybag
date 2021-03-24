@@ -46,10 +46,37 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Busybag</title>
+    <style>
+      .full-page-loader {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+      }
+      .full-page-loader > img {
+        animation: 1.8s infinite heartbeat;
+      }
+      @keyframes heartbeat {
+        0% { transform: scale(0.50); }
+        25% { transform: scale(0.55); }
+        50% { transform: scale(0.50); }
+        75% { transform: scale(0.55); }
+        100% { transform: scale(0.50); }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="full-page-loader">
+        <img width="200" src="%PUBLIC_URL%/iconx/tile70x70.png" alt="busybag logo" />
+      </div>
+    </div>
     <!--
       This HTML file is a template.
     -->

@@ -1,4 +1,5 @@
 import React, { useContext, useState , useEffect } from 'react'
+import Loading from '../components/Loading'
 import {auth,provider} from '../firebase'
 
 const AuthContext = React.createContext()
@@ -65,6 +66,7 @@ export function AuthProvider( {children} ) {
 
     const value = {
         currentUser,
+        loading,
         login,
         logout,
         signup,
@@ -75,6 +77,7 @@ export function AuthProvider( {children} ) {
     return (
         <AuthContext.Provider value={value}>
             {!loading && children}
+            {loading && Loading}
         </AuthContext.Provider>
     )
 }

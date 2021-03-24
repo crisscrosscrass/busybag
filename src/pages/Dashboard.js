@@ -1,4 +1,4 @@
-import React, {useState, useContext,useEffect} from 'react'
+import React, {useState, useContext,useEffect,lazy } from 'react'
 import { /*Link*/ useHistory } from 'react-router-dom'
 import {useAuth} from '../service/AuthContext'
 import {useTheme} from '../service/ThemeContext'
@@ -8,13 +8,16 @@ import BottomNav from '../components/BottomNav'
 import TopNav from '../components/TopNav'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { AppTransitionContext } from '../service/AppTransitionContext'
+import ProjectSelection from '../components/ProjectSelection'
+import Loading from '../components/Loading'
+
 
 
 export default function Dashboard() {
     const [error, setError] = useState('')
     const {currentUser, loading} = useAuth()
     const { themePrimary, toggleTheme } = useTheme()
-    const { projects, deleteProject } = useDB()
+    const { projectloading } = useDB()
     const { assignProject } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
@@ -24,6 +27,7 @@ export default function Dashboard() {
         // TODO remove useEffect after testing
         
       },[]);
+
     
     function changeColor(){
         toggleTheme(themePrimary)
@@ -59,23 +63,19 @@ export default function Dashboard() {
 
     return (
         <section>
+            
             <div className="container text-center">
                 <TopNav />
                 <div className="main-container">
-                    {loading && <div>Loading Projects</div>}
                     {error && <h1>{error}</h1>}
                     <div className="projects">
                         {!loading && <button onClick={handleToProjectCreate} className="project flex-center">
-                            <AiOutlinePlus size="4em"/>
-                        </button>}
-                        {projects.map((project,i) =>  (
-                        <div key={i} className="project" style={{backgroundColor:project.data.color}} onClick={() =>handleToProjectOverview(project)}>
-                            <div>{project.data.name}</div>
-                            {/* <button > Open </button> */}
-                        </div>
-                        ))}
+                                <AiOutlinePlus size="4em"/>
+                            </button>}
                     </div>
+                    <ProjectSelection />
                 </div>
+                
                 {/* <div>
                     <button onClick={changeColor} style={styleTest}>ChangeColor</button>
                     <h1>{themePrimary}</h1>

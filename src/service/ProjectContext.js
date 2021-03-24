@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import Loading from '../components/Loading'
 import {firestore} from '../firebase'
 
 export const ProjectContext = React.createContext()
@@ -85,6 +86,7 @@ export function ProjectProvider( {children} ) {
     return (
         <ProjectContext.Provider value={value}>
             {!loading && children}
+            {loading && Loading}
         </ProjectContext.Provider>
     )
 }

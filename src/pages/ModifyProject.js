@@ -94,6 +94,15 @@ export default function ModifyProject() {
         history.push('/history-view')
     }
 
+    async function removeFromProject(){
+        if(window.confirm(`You wanna quite ${projectname} ?`)){
+            console.log("remove user from this!!!")
+            if(projectOverview.data.shared.length < 2){
+                window.alert(`You can't quite ${projectname}, because there are no user to inherit that!`)
+            }
+        }
+    }
+
     async function deleteFromProject(){
         if(window.confirm(`Delete everything including ${projectname}?`)){
             deleteProject(projectOverview.id)
@@ -139,7 +148,7 @@ export default function ModifyProject() {
                 
                 <div className="container text-center">
                     <h1><AiOutlineUserAdd size="2.5em" /></h1>
-                    <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}><button disabled>x</button>{user}</div>)}
+                    <label className="flex">Shared:</label>{projectOverview.data.shared.map((user, index)=> <div className="flex" key={index}>{currentUser.email == user ? <button onClick={removeFromProject}>x</button>: <button disabled>x</button>}{user}</div>)}
                     <button>+ Add Member</button>
                 </div>
             </div>
