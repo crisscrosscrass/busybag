@@ -91,7 +91,9 @@ img{
     max-width: 450px;
     margin: auto;
     background: white;
-    height: 100vh;
+    height: 96vh;
+    min-height: 96vh;
+    min-height: -webkit-fill-available;
     padding: 0.2em;
     border: 1px solid rebeccapurple;
 }
@@ -99,7 +101,6 @@ img{
 section{
     padding: 0.5rem 0;
     max-width: 450px;
-    max-height: calc(120vh - 5em);
     overflow: auto;
     margin: 0;
     background: white;
@@ -267,7 +268,7 @@ header{
     margin: auto;
     max-width: 450px;
     width: 100%;
-    bottom: 1em;
+    bottom: 0em;
     left: 0;
     border: 1px solid black;
     background-color: white;

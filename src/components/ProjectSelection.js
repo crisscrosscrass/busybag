@@ -5,19 +5,19 @@ import { useProject } from '../service/ProjectContext';
 import {useDB} from '../service/DatabaseContext';
 import Loading from './Loading';
 
-export default function ProjectSelection(props) {
-    const { assignProject } = useProject()
+export default function ProjectSelection() {
+    const { assignProject, loadProjectById } = useProject()
     const history = useHistory()
     const { setPreset } = useContext(AppTransitionContext);
-    const { projects, deleteProject, projectloading } = useDB()
+    const { projects, deleteProject, projectloading,projectOverview } = useDB()
 
     useEffect(() => {
         // TODO remove useEffect after testing
-        
       },[]);
 
     async function handleToProjectOverview(project){
         try {
+            console.log(project.id)
             await assignProject(project);
             // await setPreset("newspaper")
             await setPreset("pushTopPullBottom")
@@ -30,7 +30,6 @@ export default function ProjectSelection(props) {
             console.log(error)
         }
     }
-    console.log(projectloading)
     return (
         <div className="projects">
             {!projectloading && projects.map((project,i) =>  (

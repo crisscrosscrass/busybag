@@ -7,6 +7,7 @@ import { AiOutlineArrowLeft, AiFillEdit } from 'react-icons/ai'
 import { BiShareAlt } from 'react-icons/bi'
 import { AppTransitionContext } from '../service/AppTransitionContext'
 import BottomNav from '../components/BottomNav';
+import TaskSelection from '../components/TaskSelection';
 
 export default function ProjectOverview() {
     const { setPreset } = useContext(AppTransitionContext);
@@ -27,8 +28,9 @@ export default function ProjectOverview() {
 
     useEffect(() => {
         // TODO remove useEffect after testing
-        console.log(projectOverview)
+                
       },[]);
+    
     
     async function handleToDashboard(){
         try {
@@ -74,22 +76,6 @@ export default function ProjectOverview() {
             await assignProject(newProjectData);
             }
     }
-
-    async function handleCompleteTask(projectId,itemId, taskName){
-        await addHistoryEntryToProject(currentUser.email,projectId, taskName)
-        await deleteTaskFromProject(projectId,itemId)
-        const newProjectInfo = await getCurrentProjectData(projectId);
-            const newProjectData = {
-                id: projectId,
-                data: newProjectInfo
-            }
-        await assignProject(newProjectData);
-    }
-
-    async function handleTaskMenu(taskName){
-        console.log(window.prompt(`Who you want to assign this ${taskName} Task?`));
-    }
-
     async function handleLogout(){
         setError('')
         try {
@@ -122,14 +108,7 @@ export default function ProjectOverview() {
                 {/* <h5>Project Overview</h5> */}
                 <h2>{projectName}</h2>
                 <p className="separator" style={{backgroundColor:projectColor}}>&nbsp;</p>
-                <ul className="task-listing">
-                    {tasks.map((item,i) =>  (
-                            <li key={i} className="task-list" >
-                                <button onClick={() => handleCompleteTask(projectId,item.id,item.data.name)}>done</button><button onClick={() => handleTaskMenu(item.data.name)}>assign</button> <p onClick={() => window.prompt(`Name: ${item.data.name} \nDescription: ${item.data.description}`)}>{item.data.name}</p>
-                                {/* <li>{item.data.name}|{item.id}</li> */}
-                            </li>
-                            ))}
-                </ul>
+                <TaskSelection />
                 <BottomNav />
             </div>
         </section>

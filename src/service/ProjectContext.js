@@ -21,28 +21,38 @@ export function ProjectProvider( {children} ) {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        setLoading(false)
-    },[])
+        // console.log(projectName == ""? setLoading(false):setLoading(true));
+        
+        setLoading(false)        
+    },[projectId])
+
+    function loadProjectById(projectId){
+        setProjectId(projectId);
+    }
 
     async function assignProject(project){
-        setProjectId(project.id)
-        loadingTasksFromProject(project.id)
-        setProjectName(project.data.name)
-        setProjectColor(project.data.color)
-        setProjectDescription(project.data.description)
-        setProjectOwner(project.data.owner)
-        setProjectShared(project.data.shared)
-        setProjectOverview(project)
+        await loadingTasksFromProject(project.id)
+        await setProjectId(project.id);
+        await setProjectName(project.data.name)
+        await setProjectColor(project.data.color)
+        await setProjectDescription(project.data.description)
+        await setProjectOwner(project.data.owner)
+        await setProjectShared(project.data.shared)
+        await setProjectOverview(project)
     }
 
     function loadingTasksFromProject(projectId){
-        firestore.collection(projectId).onSnapshot(snapshop => setTasks(
-            snapshop.docs.map(
-                doc=>({id:doc.id,data:doc.data()})
+        return firestore.collection(projectId)
+        .onSnapshot(snapshop => {
+            setTasks(
+                snapshop.docs.map(
+                    doc=>({id:doc.id,data:doc.data()})
+                    )
                 )
-            )
+            setLoading(false)
+            }
         )
-        setLoading(false)
+        
     }
 
     
@@ -67,6 +77,7 @@ export function ProjectProvider( {children} ) {
     }
 
     const value = {
+        loadProjectById,
         assignProject,
         assignTaskboard,
         tasks,
@@ -86,7 +97,6 @@ export function ProjectProvider( {children} ) {
     return (
         <ProjectContext.Provider value={value}>
             {!loading && children}
-            {loading && Loading}
         </ProjectContext.Provider>
     )
 }
