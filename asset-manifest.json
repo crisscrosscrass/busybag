@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/busybag/static/css/main.967d1f5d.chunk.css",
+    "main.css": "/busybag/static/css/main.6908c76d.chunk.css",
     "main.js": "/busybag/static/js/main.be324f5c.chunk.js",
     "main.js.map": "/busybag/static/js/main.be324f5c.chunk.js.map",
     "runtime-main.js": "/busybag/static/js/runtime-main.7a0fa77d.js",
@@ -12,7 +12,7 @@
     "index.html": "/busybag/index.html",
     "service-worker.js": "/busybag/service-worker.js",
     "service-worker.js.map": "/busybag/service-worker.js.map",
-    "static/css/main.967d1f5d.chunk.css.map": "/busybag/static/css/main.967d1f5d.chunk.css.map",
+    "static/css/main.6908c76d.chunk.css.map": "/busybag/static/css/main.6908c76d.chunk.css.map",
     "static/js/2.c6771f62.chunk.js.LICENSE.txt": "/busybag/static/js/2.c6771f62.chunk.js.LICENSE.txt",
     "static/media/LogoBusybag.b9473507.png": "/busybag/static/media/LogoBusybag.b9473507.png",
     "static/media/unnamed.ea125fe9.png": "/busybag/static/media/unnamed.ea125fe9.png"
@@ -20,7 +20,7 @@
   "entrypoints": [
     "static/js/runtime-main.7a0fa77d.js",
     "static/js/2.c6771f62.chunk.js",
-    "static/css/main.967d1f5d.chunk.css",
+    "static/css/main.6908c76d.chunk.css",
     "static/js/main.be324f5c.chunk.js"
   ]
 }
